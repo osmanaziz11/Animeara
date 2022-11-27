@@ -16,6 +16,8 @@ class Scrape:
     filePath=constants.FILEPATH
     fileInstanse=None
     imageFilePath=constants.IMAGEFILEPATH
+    error404=constants.ERROR404
+    error403=constants.ERROR403
     HEADERS=None
 
     def __init__(self):
@@ -97,7 +99,7 @@ class Scrape:
                         continue
             except Exception as e:
                 print(f"Failed to fetch. Check Error.txt file")
-                open('../error.txt', 'a').write(url)
+                open(self.error403, 'a').write(url)
                 continue
            
            
@@ -107,7 +109,7 @@ class Scrape:
                         imgSrcArr.append(f"http://www.getchu.com{item.find('img')['src'][1:]}")
             except:
                 print(f"No image to fetch. Check 404.txt file")
-                open('../404.txt', 'a').write(url)
+                open(self.error404, 'a').write(url)
                 continue
             print(f"\n imgSrcArr Length: {len(imgSrcArr)}") 
             if len(imgSrcArr) > 0:    

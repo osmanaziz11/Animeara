@@ -9,4 +9,8 @@ FILEPATH="../url.txt"
 INITIAL_DATE=2005
 
 # Downlaod Images and save into this file/folder
-IMAGEFILEPATH='../data/without Labels/'
+IMAGEFILEPATH='../data/images/'
+
+# below var contain path of files which is used to track url failed to scrape images.
+ERROR404='../errors/404.txt'
+ERROR403='../errors/403.txt'
