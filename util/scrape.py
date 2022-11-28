@@ -5,7 +5,7 @@
 # import modules
 import requests
 from bs4 import  BeautifulSoup
-import variables
+from util import variables
 from googletrans import Translator
 import os
 
@@ -122,4 +122,4 @@ class Scrape:
         self.fetchImages()
 
 
-Scrape().driver()
+# Scrape().driver()
