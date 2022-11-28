@@ -5,19 +5,19 @@
 # import modules
 import requests
 from bs4 import  BeautifulSoup
-import constants 
+import variables
 from googletrans import Translator
 import os
 
 translater=Translator()
             
 class Scrape:
-    baseURL=constants.LOCAL
-    filePath=constants.FILEPATH
+    baseURL=variables.LOCAL
+    filePath=variables.FILEPATH
     fileInstanse=None
-    imageFilePath=constants.IMAGEFILEPATH
-    error404=constants.ERROR404
-    error403=constants.ERROR403
+    imageFilePath=variables.IMAGEFILEPATH
+    error404=variables.ERROR404
+    error403=variables.ERROR403
     HEADERS=None
 
     def __init__(self):
@@ -46,7 +46,7 @@ class Scrape:
                     if counter==2:
                         date=column.text
                         idd=column.find_next_sibling("td").text
-                        if int(date[0:4])  >= constants.INITIAL_DATE:
+                        if int(date[0:4])  >= variables.INITIAL_DATE:
                             self.fileInstanse.write(f"http://www.getchu.com/soft.phtml?id={idd}\n")
                     else:
                         continue
@@ -72,6 +72,7 @@ class Scrape:
                  print(f"Fail to download: {image}") 
                  print(f"Error: {e}") 
                  continue
+        open('complete.txt','a').write(baseURL)
         print(f"End Downloading\n\n")
         
     
