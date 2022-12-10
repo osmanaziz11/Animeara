@@ -29,48 +29,25 @@ class _ApplicationState extends State<Application> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            width: double.infinity,
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("ANIMERA",
-                      style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 5,
-                          color: const Color(0xffF8961E),
-                          fontSize: 30)),
-                  Icon(
-                    Icons.menu,
-                    color: Color.fromARGB(255, 207, 206, 206),
-                  )
-                ]),
-          ),
-        ),
-        body: HomeScreen(),
+        body: _screens[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Color(0xff181818),
           items: const [
             BottomNavigationBarItem(
                 label: "Home",
-                backgroundColor: Color.fromARGB(169, 6, 6, 6),
+                backgroundColor: Colors.transparent,
                 icon: Icon(
                   Icons.home,
                 )),
             BottomNavigationBarItem(
               label: "Notifications",
               icon: Icon(Icons.notifications),
-              backgroundColor: Color.fromARGB(169, 6, 6, 6),
+              backgroundColor: Colors.transparent,
             ),
             BottomNavigationBarItem(
               label: "Profile",
               icon: Icon(Icons.dashboard),
-              backgroundColor: Color.fromARGB(169, 6, 6, 6),
+              backgroundColor: Colors.transparent,
             ),
           ],
           iconSize: 20,
@@ -79,7 +56,7 @@ class _ApplicationState extends State<Application> {
           showUnselectedLabels: true,
           currentIndex: _currentIndex,
           unselectedItemColor: const Color.fromARGB(142, 255, 255, 255),
-          selectedItemColor: const Color(0XFFF8961E),
+          selectedItemColor: Colors.amber,
           onTap: _navigate,
         ),
       ),
