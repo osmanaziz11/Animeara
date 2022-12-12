@@ -1,4 +1,7 @@
+import 'package:app/models/NotificationModel.dart';
 import 'package:app/widgets/AppBar.dart';
+import 'package:app/widgets/PreferedSize.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -10,37 +13,61 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          width: double.infinity,
-          child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("ANIMERA",
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 5,
-                        color: Colors.amber,
-                        fontSize: 30)),
-                Icon(
-                  Icons.menu,
-                  color: Color.fromARGB(255, 207, 206, 206),
-                )
-              ]),
-        ),
-      ),
-      body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text("For Future Use",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.montserrat(
-                  letterSpacing: 5,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 20))
-        ]),
+      appBar: customPreferredSize(),
+      body: Container(
+        height: double.infinity,
+        margin: const EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('notifications')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.hasData) {
+                  QuerySnapshot dataSnapshot = snapshot.data as QuerySnapshot;
+                  return Container(
+                    height: 470,
+                    child: ListView.builder(
+                      itemCount: dataSnapshot.docChanges.length,
+                      itemBuilder: (context, index) {
+                        NotificationModel noti = NotificationModel.fromMap(
+                            dataSnapshot.docs[index].data()
+                                as Map<String, dynamic>);
+                        return ListTile(
+                          onTap: () async {},
+                          leading: Icon(
+                            Icons.notifications_on,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                          title: Text(
+                            noti.text!,
+                            style: GoogleFonts.alegreyaSans(
+                                color: const Color.fromARGB(255, 211, 208, 208),
+                                fontSize: 20),
+                          ),
+                          subtitle: Text(
+                            noti.feedback as String,
+                            style: GoogleFonts.alegreyaSans(
+                                color: const Color(0xFF5A5A5A), fontSize: 16),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  return const Text(
+                    "No record found.",
+                    style: TextStyle(color: Colors.white),
+                  );
+                }
+              } else {
+                return const Text(
+                  "An error occured.",
+                );
+              }
+            }),
       ),
     );
   }

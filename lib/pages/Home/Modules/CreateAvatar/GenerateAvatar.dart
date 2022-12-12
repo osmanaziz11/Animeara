@@ -1,34 +1,73 @@
 import 'package:app/navkeys.dart';
+import 'package:app/pages/Home/Modules/CreateAvatar/feedbackScreen.dart';
 import 'package:app/widgets/AppBar.dart';
+import 'package:app/widgets/CircularLoader.dart';
 import 'package:app/widgets/Heading.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ci.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
+import 'package:image_downloader/image_downloader.dart';
 
+// import 'string_extensions.dart';
 class GeneratedAvatar extends StatefulWidget {
-  const GeneratedAvatar({super.key});
+  String? hairLabel;
+  String? eyeLabel;
+  String? text;
+  bool isSaved = false;
+  bool isSavedLoader = false;
+  GeneratedAvatar({super.key, this.hairLabel, this.eyeLabel});
 
   @override
   State<GeneratedAvatar> createState() => _GeneratedAvatarState();
 }
 
 class _GeneratedAvatarState extends State<GeneratedAvatar> {
+  downloadImage() async {
+    try {
+      // Saved with this method.
+      var imageId = await ImageDownloader.downloadImage(
+          "https://raw.githubusercontent.com/wiki/ko2ic/image_downloader/images/flutter.png");
+      if (imageId == null) {
+        return;
+      }
+      // Below is a method of obtaining saved image information.
+      var fileName = await ImageDownloader.findName(imageId);
+      String? path = await ImageDownloader.findPath(imageId);
+      setState(() {
+        widget.isSavedLoader = false;
+        widget.isSaved = true;
+      });
+      return path;
+    } on PlatformException catch (error) {
+      print(error);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(widget.hairLabel!);
+    print(widget.eyeLabel!);
     return Scaffold(
       appBar: customAppBar(),
       body: Container(
         width: double.infinity,
         height: double.infinity,
         child: Column(children: [
-          MainHeading(first: "YOUR", second: "AVATAR"),
+          MainHeading(
+            first: "YOUR",
+            second: "AVATAR",
+            size: 31,
+          ),
           const SizedBox(
             height: 30,
           ),
-          Text("Aqua Hair with Blue Eyes",
+          Text(
+              "${widget.hairLabel![0].toUpperCase()}${widget.hairLabel!.substring(1).toLowerCase()} Hair  with  ${widget.eyeLabel![0].toUpperCase()}${widget.eyeLabel!.substring(1).toLowerCase()} Eyes",
               textAlign: TextAlign.center,
               style:
                   GoogleFonts.alegreyaSans(color: Colors.white, fontSize: 20)),
@@ -38,10 +77,12 @@ class _GeneratedAvatarState extends State<GeneratedAvatar> {
           Container(
             width: 170,
             height: 170,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/images/Aqua/1.jpg'),
-                  fit: BoxFit.fill),
+                image: NetworkImage(
+                    'http://192.168.100.29:5000/${widget.hairLabel}%20hair/${widget.eyeLabel}%20eyes'),
+                fit: BoxFit.fill,
+              ),
               color: Colors.white,
               shape: BoxShape.rectangle,
             ),
@@ -64,16 +105,23 @@ class _GeneratedAvatarState extends State<GeneratedAvatar> {
             style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xff1E1E1E)),
             onPressed: () {
-              Navigation.mainNavigation.currentState!.pushNamed('/chat');
+              if (!widget.isSaved) {
+                setState(() {
+                  widget.isSavedLoader = true;
+                });
+                downloadImage();
+              }
             },
-            child: Text(
-              'Save',
-              style: GoogleFonts.alegreyaSans(
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 3,
-                  color: Colors.white,
-                  fontSize: 20),
-            ),
+            child: widget.isSavedLoader
+                ? CircularLoader()
+                : Text(
+                    widget.isSaved ? 'Saved' : 'Save',
+                    style: GoogleFonts.alegreyaSans(
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 3,
+                        color: Colors.white,
+                        fontSize: 20),
+                  ),
           ),
         ),
         Container(
@@ -85,7 +133,7 @@ class _GeneratedAvatarState extends State<GeneratedAvatar> {
             style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xff1E1E1E)),
             onPressed: () {
-              Navigation.mainNavigation.currentState!.pushNamed('/chat');
+              // Navigation.mainNavigation.currentState!.pushNamed('/chat');
             },
             child: Text(
               'Share',
@@ -106,7 +154,11 @@ class _GeneratedAvatarState extends State<GeneratedAvatar> {
             style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xff1E1E1E)),
             onPressed: () {
-              Navigation.mainNavigation.currentState!.pushNamed('/feedback');
+              widget.text =
+                  "${widget.hairLabel![0].toUpperCase()}${widget.hairLabel!.substring(1).toLowerCase()} Hair  with  ${widget.eyeLabel![0].toUpperCase()}${widget.eyeLabel!.substring(1).toLowerCase()} Eyes";
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AvatarFeedBack(text: widget.text!),
+              ));
             },
             child: Text(
               'Feedback',

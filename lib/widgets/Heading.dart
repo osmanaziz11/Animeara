@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 class MainHeading extends StatelessWidget {
   late String first;
   late String second;
-  late double? fontSize;
+  double? size;
   MainHeading(
-      {super.key, required this.first, required this.second, this.fontSize});
+      {super.key, required this.first, required this.second, this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +19,14 @@ class MainHeading extends StatelessWidget {
                 fontWeight: FontWeight.w900,
                 letterSpacing: 5,
                 color: const Color.fromARGB(255, 255, 255, 255),
-                fontSize: 31)),
+                fontSize: size)),
         const SizedBox(width: 10),
         Text(second,
             style: GoogleFonts.montserrat(
                 fontWeight: FontWeight.w900,
                 letterSpacing: 5,
                 color: Colors.amber,
-                fontSize: 31)),
+                fontSize: size)),
       ],
     );
   }

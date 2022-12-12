@@ -1,5 +1,7 @@
 import 'package:app/models/MessageModel.dart';
 import 'package:app/navkeys.dart';
+import 'package:app/widgets/AppBar.dart';
+import 'package:app/widgets/Heading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,115 +41,27 @@ class _chatWithAnimeraState extends State<chatWithAnimera> {
     }
   }
 
-  // Center AvatarModule() {
-  //   String path = 'assets/images/Aqua/0.jpg';
-  //   return Center(
-  //     child: Column(children: [
-  //       StreamBuilder(
-  //           stream:
-  //               FirebaseFirestore.instance.collection("chatroom").snapshots(),
-  //           builder: (context, snapshot) {
-  //             if (snapshot.connectionState == ConnectionState.active) {
-  //               if (snapshot.hasData) {
-  //                 QuerySnapshot dataSnapshot = snapshot.data as QuerySnapshot;
-  //                 Map<String, dynamic> a =
-  //                     dataSnapshot.docs[0].data() as Map<String, dynamic>;
-  //                 if (a['Eyes'] == 'aqua' && a['Hair'] == 'aqua') {
-  //                   path = 'assets/images/Aqua/0.jpg';
-  //                 } else if (a['Eyes'] == 'black' && a['Hair'] == 'aqua') {
-  //                   path = 'assets/images/Aqua Black/0.jpg';
-  //                 } else if (a['Eyes'] == 'blue' && a['Hair'] == 'aqua') {
-  //                   path = 'assets/images/Aqua Blue/0.jpg';
-  //                 } else if (a['Eyes'] == 'brown' && a['Hair'] == 'aqua') {
-  //                   path = 'assets/images/Aqua Brown/0.jpg';
-  //                 } else if (a['Eyes'] == 'green' && a['Hair'] == 'aqua') {
-  //                   path = 'assets/images/Aqua Green/0.jpg';
-  //                 } else if (a['Eyes'] == 'orange' && a['Hair'] == 'aqua') {
-  //                   path = 'assets/images/Aqua Orange/0.jpg';
-  //                 }
-  //                 print("sdsds $a");
-  //                 return Column(
-  //                   children: [
-  //                     Container(
-  //                       width: 120,
-  //                       height: 120,
-  //                       decoration: BoxDecoration(
-  //                         image: DecorationImage(
-  //                             image: AssetImage(path), fit: BoxFit.fill),
-  //                         color: Colors.white,
-  //                         shape: BoxShape.circle,
-  //                       ),
-  //                     ),
-  //                     Container(
-  //                       height: 40,
-  //                       width: double.infinity,
-  //                       margin: const EdgeInsets.symmetric(vertical: 20),
-  //                       padding: const EdgeInsets.symmetric(horizontal: 80),
-  //                       child: ElevatedButton(
-  //                         style: ElevatedButton.styleFrom(
-  //                             backgroundColor: const Color(0xff1E1E1E)),
-  //                         onPressed: () {},
-  //                         child: Text(
-  //                           'Save',
-  //                           style: GoogleFonts.alegreyaSans(
-  //                               fontWeight: FontWeight.w900,
-  //                               letterSpacing: 3,
-  //                               color: Colors.white,
-  //                               fontSize: 20),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 );
-  //               } else {
-  //                 return const CircularProgressIndicator();
-  //               }
-  //             } else {
-  //               return const CircularProgressIndicator();
-  //             }
-  //           }),
-  //     ]),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          leading: InkWell(
-            onTap: () => Navigation.mainNavigation.currentState!.pop(),
-            child: Container(
-              padding: const EdgeInsets.all(15),
-              child: const Iconify(
-                MaterialSymbols.arrow_back_ios_rounded,
-                color: Colors.white,
-                size: 44,
-              ),
-            ),
-          ),
-          backgroundColor: const Color(0xff181818),
-          elevation: 0,
-          actions: [
-            Container(
-              margin: const EdgeInsets.only(right: 10),
-              child: const Iconify(
-                Ci.menu_alt_02,
-                color: Colors.white,
-                size: 44,
-              ),
-            )
-          ]),
+      appBar: customAppBar(),
       body: Container(
         width: double.infinity,
         height: 600,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Column(children: [
+            MainHeading(
+              first: "ASK",
+              second: "HELP",
+              size: 31,
+            ),
             Container(
-              margin: const EdgeInsets.only(bottom: 15),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              height: 500,
-              color: Color.fromARGB(252, 17, 17, 17),
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              height: 430,
+              decoration: BoxDecoration(),
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection("chatroom")
@@ -187,9 +101,8 @@ class _chatWithAnimeraState extends State<chatWithAnimera> {
                                               decoration: const BoxDecoration(
                                                 image: DecorationImage(
                                                     image: AssetImage(
-                                                        "assets/images/c4.png"),
+                                                        "assets/images/avatar2.png"),
                                                     fit: BoxFit.fill),
-                                                color: Colors.white,
                                                 shape: BoxShape.circle,
                                               ),
                                             ),
@@ -212,8 +125,7 @@ class _chatWithAnimeraState extends State<chatWithAnimera> {
                                         color: (currentMessage.sender == userID)
                                             ? const Color.fromARGB(
                                                 255, 253, 33, 33)
-                                            : const Color.fromARGB(
-                                                255, 42, 145, 241),
+                                            : Color.fromARGB(255, 0, 0, 0),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: Text(
@@ -268,8 +180,11 @@ class _chatWithAnimeraState extends State<chatWithAnimera> {
                   }),
             ),
             Container(
-              color: const Color.fromARGB(255, 14, 13, 13),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(83, 12, 11, 11),
+                borderRadius: BorderRadius.circular(5),
+              ),
               child: Row(
                 children: [
                   Flexible(

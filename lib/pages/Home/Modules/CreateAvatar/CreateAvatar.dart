@@ -1,4 +1,6 @@
+import 'package:app/data/data.dart';
 import 'package:app/navkeys.dart';
+import 'package:app/pages/Home/Modules/CreateAvatar/GenerateAvatar.dart';
 import 'package:app/widgets/Heading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -17,31 +19,54 @@ class CreateAvatar extends StatefulWidget {
 }
 
 class _CreateAvatarState extends State<CreateAvatar> {
-  List<String> suggestons = [
-    "Aqua Hair with Blue Eyes",
-    "Blonde Hair with Black Eyes",
-    "Black Hair with Red Eyes",
-    "Yellow Hair with Green Eyes",
-    "Aqua Hair with Blue Eyes",
-    "Blonde Hair with Black Eyes",
-    "Black Hair with Red Eyes",
-    "Yellow Hair with Green Eyes",
-  ];
-  // var _inputController = TextEditingController(text: );
+  TextEditingController _inputController = TextEditingController();
+  final inputPattern = RegExp(r'^[a-zA-Z ]+$');
+  bool error = false;
+  int? indexHair;
+  int? indexEyes;
   @override
   Widget build(BuildContext context) {
-    TextEditingController _inputController = TextEditingController();
-    bool error = false;
     void _validateInput() {
       var text = _inputController.text;
       if (text.isEmpty) {
-        print("_inputController.text");
         setState(() {
           error = true;
         });
-      } else {
+      } else if (inputPattern.hasMatch(text)) {
+        List check = text.split(" ");
+
+        check.asMap().forEach((index, value) {
+          if (value.toString().toLowerCase() == 'hair') {
+            indexHair = index > 0 ? index - 1 : index + 1;
+          } else if (value.toString().toLowerCase() == 'eyes' ||
+              value.toString().toLowerCase() == 'eye') {
+            indexEyes = index > 0 ? index - 1 : index + 1;
+          }
+        });
+        if (HairLabels.contains(
+                "${check[indexHair!].toString().toLowerCase()} hair") &&
+            EyesLabels.contains(
+                "${check[indexEyes!].toString().toLowerCase()} eyes")) {
+          setState(() {
+            error = false;
+          });
+          String hair = "${check[indexHair!].toString().toLowerCase()}";
+          String eye = "${check[indexEyes!].toString().toLowerCase()}";
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                GeneratedAvatar(hairLabel: hair, eyeLabel: eye),
+          ));
+        } else {
+          setState(() {
+            error = true;
+          });
+        }
         // More Validation
         // if ok navigate to NExt page with extracted labels
+      } else {
+        setState(() {
+          error = true;
+        });
       }
     }
 
@@ -79,7 +104,11 @@ class _CreateAvatarState extends State<CreateAvatar> {
             const SizedBox(
               height: 10,
             ),
-            MainHeading(first: "CREATE", second: "ANIME"),
+            MainHeading(
+              first: "CREATE",
+              second: "ANIME",
+              size: 31,
+            ),
             Container(
               height: 320,
               padding: const EdgeInsets.all(20),
@@ -93,8 +122,9 @@ class _CreateAvatarState extends State<CreateAvatar> {
                   boxShadow: [
                     BoxShadow(
                       color: error
-                          ? Colors.red.withOpacity(0.5)
-                          : Color.fromARGB(255, 85, 85, 85).withOpacity(0.5),
+                          ? Colors.red
+                          : const Color.fromARGB(255, 85, 85, 85)
+                              .withOpacity(0.5),
                       spreadRadius: 5,
                       blurRadius: 5,
                       offset: const Offset(0, 0), // changes position of shadow
@@ -108,13 +138,15 @@ class _CreateAvatarState extends State<CreateAvatar> {
                     Container(
                       color: Colors.transparent,
                       child: TypeAheadField(
-                        getImmediateSuggestions: true,
+                        keepSuggestionsOnLoading: false,
                         animationStart: 0,
                         animationDuration: Duration.zero,
                         textFieldConfiguration: TextFieldConfiguration(
+                          enableSuggestions: true,
+                          enableInteractiveSelection: true,
                           controller: _inputController,
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(vertical: 10),
                             hintStyle: TextStyle(
@@ -131,21 +163,17 @@ class _CreateAvatarState extends State<CreateAvatar> {
                             ),
                           ),
                         ),
-                        suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                            color: const Color(0xff201E1E),
-                            constraints:
-                                BoxConstraints.expand(height: 200, width: 300),
-                            elevation: 0,
-                            hasScrollbar: true),
+                        suggestionsBoxDecoration:
+                            const SuggestionsBoxDecoration(
+                                color: Color(0xff201E1E),
+                                constraints: BoxConstraints.expand(
+                                    height: 200, width: 300),
+                                elevation: 0,
+                                hasScrollbar: true),
                         suggestionsCallback: (pattern) {
                           List<String> matches = <String>[];
                           matches.addAll(suggestons);
 
-                          matches.retainWhere((s) {
-                            return s
-                                .toLowerCase()
-                                .contains(pattern.toLowerCase());
-                          });
                           return matches;
                         },
                         itemBuilder: (context, sone) {
@@ -162,7 +190,6 @@ class _CreateAvatarState extends State<CreateAvatar> {
                           setState(() {
                             _inputController.text = suggestion;
                           });
-                          print(_inputController.text);
                         },
                       ),
                     )
@@ -178,11 +205,9 @@ class _CreateAvatarState extends State<CreateAvatar> {
                     backgroundColor: const Color(0xff1E1E1E)),
                 onPressed: () {
                   _validateInput();
-                  Navigation.mainNavigation.currentState!
-                      .pushNamed('/generateAvatar');
                 },
                 child: Text(
-                  'Generate',
+                  "Generate",
                   style: GoogleFonts.alegreyaSans(
                       // fontWeight: FontWeight.w900,
                       letterSpacing: 3,

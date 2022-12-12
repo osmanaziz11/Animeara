@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/ci.dart';
 
 PreferredSize customPreferredSize() {
   return PreferredSize(
@@ -18,9 +20,13 @@ PreferredSize customPreferredSize() {
                     letterSpacing: 5,
                     color: Colors.amber,
                     fontSize: 30)),
-            Icon(
-              Icons.menu,
-              color: Color.fromARGB(255, 207, 206, 206),
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              child: const Iconify(
+                Ci.menu_alt_02,
+                color: Colors.white,
+                size: 44,
+              ),
             )
           ]),
     ),

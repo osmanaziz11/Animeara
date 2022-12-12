@@ -42,7 +42,11 @@ class UserGuide extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                MainHeading(first: "USER", second: "GUIDE"),
+                MainHeading(
+                  first: "USER",
+                  second: "GUIDE",
+                  size: 31,
+                ),
                 Container(
                   width: double.infinity,
                   height: 550,

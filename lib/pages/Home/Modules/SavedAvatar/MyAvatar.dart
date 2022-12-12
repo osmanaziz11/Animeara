@@ -49,7 +49,11 @@ class _MyAvatarState extends State<MyAvatar> {
         margin: const EdgeInsets.symmetric(vertical: 10),
         child: Column(
           children: [
-            MainHeading(first: "YOUR", second: "ANIME"),
+            MainHeading(
+              first: "YOUR",
+              second: "ANIME",
+              size: 31,
+            ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 15),
               width: double.infinity,
@@ -110,7 +114,7 @@ class _MyAvatarState extends State<MyAvatar> {
     return Container(
       width: 150,
       height: 210,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Color(0xff201E1E),

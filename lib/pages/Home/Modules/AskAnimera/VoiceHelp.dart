@@ -5,6 +5,8 @@ import 'dart:ui' as ui;
 import 'dart:convert';
 
 import 'package:alan_voice/alan_voice.dart';
+import 'package:app/widgets/AppBar.dart';
+import 'package:app/widgets/Heading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 // ignore: unused_import
@@ -21,10 +23,8 @@ class VoiceHelp extends StatefulWidget {
 
 class _VoiceHelpState extends State<VoiceHelp> {
   _VoiceHelpState() {
-    /// Init Alan Button with project key from Alan Studio - log in to https://studio.alan.app, go to your project > Integrations > Alan SDK Key
     AlanVoice.addButton(
-        "893735960ce2e6d01263bfe736e6fe8d2e956eca572e1d8b807a3e2338fdd0dc/stage",
-        buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT);
+        "893735960ce2e6d01263bfe736e6fe8d2e956eca572e1d8b807a3e2338fdd0dc/stage");
 
     /// Handle commands from Alan Studio
     AlanVoice.onCommand.add((command) {
@@ -35,11 +35,29 @@ class _VoiceHelpState extends State<VoiceHelp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Text(
-          'Alan Button Example',
+        appBar: customAppBar(),
+        body: Container(
+          height: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              MainHeading(
+                first: "ASK",
+                second: "HELP",
+                size: 31,
+              ),
+              Container(
+                height: 500,
+                child: Center(
+                  child: Icon(
+                    Icons.mic,
+                    color: Colors.white,
+                    size: 81,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ));
   }
 }

@@ -21,7 +21,11 @@ class Animera extends StatelessWidget {
         height: double.infinity,
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          MainHeading(first: "ASK", second: "ANIMERA"),
+          MainHeading(
+            first: "ASK",
+            second: "ANIMERA",
+            size: 31,
+          ),
           Container(
             height: 500,
             child: Column(
@@ -35,7 +39,6 @@ class Animera extends StatelessWidget {
                     image: DecorationImage(
                         image: AssetImage('assets/images/c4.png'),
                         fit: BoxFit.fill),
-                    color: Colors.white,
                     shape: BoxShape.circle,
                   ),
                 ),

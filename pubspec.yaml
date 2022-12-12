@@ -44,6 +44,7 @@ dependencies:
   uuid: ^3.0.7
   flutter_typeahead: ^3.2.3
   alan_voice: 3.0.0
+  image_downloader: ^0.31.0
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
