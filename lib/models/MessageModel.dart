@@ -1,10 +1,9 @@
 class MessageModel {
   String? sender;
   String? text;
+  DateTime? createdon = DateTime.now();
 
-  DateTime? createdon;
-
-  MessageModel({this.sender, this.text, this.createdon});
+  MessageModel({this.sender, this.text});
 
   MessageModel.fromMap(Map<String, dynamic> map) {
     sender = map["sender"];

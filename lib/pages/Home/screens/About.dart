@@ -45,7 +45,11 @@ class About extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                MainHeading(first: "ABOUT", second: "US"),
+                MainHeading(
+                  first: "ABOUT",
+                  second: "US",
+                  size: 31,
+                ),
                 Container(
                   width: double.infinity,
                   height: 550,

@@ -34,13 +34,15 @@ List<String> suggestons = [
   "Aqua Hair with Blue Eyes",
   "Blonde Hair with Black Eyes",
   "Black Hair with Red Eyes",
-  "Yellow Hair with Green Eyes",
+  "Purple Hair with brown Eyes",
+  "Blue Hair with Black Eyes",
+  "Blonde Hair with red Eyes",
 ];
 
 List<String> feedback = [
   "Poor Quality",
-  "Poor Quality",
-  "Poor Quality",
-  "Poor Quality",
-  "Poor Quality",
+  "Good Results",
+  "Easy to use",
+  "Well Done ",
+  "improvements needed",
 ];

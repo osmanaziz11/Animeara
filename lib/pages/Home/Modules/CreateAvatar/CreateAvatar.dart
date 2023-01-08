@@ -3,8 +3,6 @@ import 'package:app/navkeys.dart';
 import 'package:app/pages/Home/Modules/CreateAvatar/GenerateAvatar.dart';
 import 'package:app/widgets/Heading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';

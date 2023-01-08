@@ -20,18 +20,15 @@ class _chatWithAnimeraState extends State<chatWithAnimera> {
   bool LoadingAvatar = false;
 
   final userID = 'TvN5lR772ljCIo9mwlTp';
-  final chatRoomID = 'tz4GNB7G9uEeOf8aX4L4';
+  final chatRoomID = 'Yyzdzs3DdlvLoRwd79rI';
 
   TextEditingController messageController = TextEditingController();
   void sendMessage() async {
     String msg = messageController.text.trim();
     messageController.clear();
     if (msg != "") {
-      MessageModel newMessage = MessageModel(
-        sender: userID,
-        text: msg,
-        createdon: DateTime.now(),
-      ); // Send Message
+      MessageModel newMessage =
+          MessageModel(sender: userID, text: msg); // Send Message
       FirebaseFirestore.instance
           .collection("chatroom")
           .doc(chatRoomID)

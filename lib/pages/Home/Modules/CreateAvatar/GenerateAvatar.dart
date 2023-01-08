@@ -31,7 +31,7 @@ class _GeneratedAvatarState extends State<GeneratedAvatar> {
     try {
       // Saved with this method.
       var imageId = await ImageDownloader.downloadImage(
-          "https://raw.githubusercontent.com/wiki/ko2ic/image_downloader/images/flutter.png");
+          "http://10.97.22.193:5000/${widget.hairLabel}%20hair/${widget.eyeLabel}%20eyes");
       if (imageId == null) {
         return;
       }
@@ -80,7 +80,7 @@ class _GeneratedAvatarState extends State<GeneratedAvatar> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                    'http://192.168.100.29:5000/${widget.hairLabel}%20hair/${widget.eyeLabel}%20eyes'),
+                    'http://192.168.43.123:5000/${widget.hairLabel}%20hair/${widget.eyeLabel}%20eyes'),
                 fit: BoxFit.fill,
               ),
               color: Colors.white,
